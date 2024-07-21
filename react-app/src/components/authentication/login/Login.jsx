@@ -20,14 +20,15 @@ import { FirebaseError } from "firebase/app";
 import "./Login.css";
 
 function Login() {
+	const pageTitle = "HouseHold";
 	const { form, handleChange } = useForm({
 		email: "",
 		password: "",
 	});
 	const [loading, setLoading] = useState(false);
 	// const navigation = useNavigation();
-	const navigate = useNavigate();
 	const buttonText = loading ? "Submitting..." : "Login";
+	const navigate = useNavigate();
 
 	const loginMap = getLoginMap(form, handleChange);
 	const componentNavigation = loginNavMap;
@@ -80,16 +81,6 @@ function Login() {
 					alignItems: "center",
 				}}
 			>
-				<Typography
-					variant="body"
-					component="div"
-					color={"white"}
-					fontFamily={"'Poppins', sans-serif"}
-					align="left"
-					fontSize={"1.5rem"}
-					width="45%"
-				></Typography>
-
 				<Card
 					sx={{
 						width: "45%",
@@ -102,7 +93,20 @@ function Login() {
 						boxShadow: "0 0 80px rgba(0, 0, 0, 0.25)",
 					}}
 				>
-					<ApartmentIcon></ApartmentIcon>
+					<Typography
+						variant="h1"
+						component="h1"
+						color={"white"}
+						fontFamily={"'Poppins', sans-serif"}
+						align="left"
+						fontSize={"1.5rem"}
+						width="43%"
+						letterSpacing={"5px"}
+						sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+					>
+						<ApartmentIcon></ApartmentIcon>
+						{pageTitle}
+					</Typography>
 					<form onSubmit={handleSubmit} className="form_container">
 						{loginInputs()}
 						<CardActions
