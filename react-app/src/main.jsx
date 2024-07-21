@@ -8,11 +8,32 @@ import { RouterProvider } from "react-router-dom";
 
 import Routes from "./routes/Routes.jsx";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			light: "#757ce8",
+			main: "#eeeeee",
+			dark: "#002884",
+			contrastText: "#fff",
+		},
+		secondary: {
+			light: "#ff7961",
+			main: "#f44336",
+			dark: "#ba000d",
+			contrastText: "#000",
+		},
+	},
+});
+
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<ToastContainer></ToastContainer>
-		<RouterProvider router={Routes}>
-			<App />
-		</RouterProvider>
+		<ThemeProvider theme={theme}>
+			<ToastContainer></ToastContainer>
+			<RouterProvider router={Routes}>
+				<App />
+			</RouterProvider>
+		</ThemeProvider>
 	</React.StrictMode>
 );

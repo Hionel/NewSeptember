@@ -1,32 +1,33 @@
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "../../../customHooks/useForm";
+import { useNavigate } from "react-router-dom";
+
 import { getLoginMap, loginNavMap } from "../../../maps/authMaps";
+
 import { signIn } from "../../../services/firebase/auth/authentication-service";
-import AuthNavigation from "../AuthNavigation";
-import "./Login.css";
-import LoginIcon from "@mui/icons-material/Login";
-import { Button, TextField } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
-// import CardMedia from "@mui/material/CardMedia";
+
 import Container from "@mui/material/Container";
+import Card from "@mui/material/Card";
+import LoginIcon from "@mui/icons-material/Login";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 import Typography from "@mui/material/Typography";
 import InputLabel from "@mui/material/InputLabel";
+import { Button, TextField } from "@mui/material";
+import CardActions from "@mui/material/CardActions";
+import AuthNavigation from "../AuthNavigation";
+
+import { FirebaseError } from "firebase/app";
+import "./Login.css";
 
 function Login() {
 	const { form, handleChange } = useForm({
 		email: "",
 		password: "",
 	});
-	const navigation = useNavigation();
+	const [loading, setLoading] = useState(false);
+	// const navigation = useNavigation();
 	const navigate = useNavigate();
-	const buttonText =
-		navigation.state === "submitting"
-			? "Submitting..."
-			: navigation.state === "loading"
-			? "Success!"
-			: "Login";
+	const buttonText = loading ? "Submitting..." : "Login";
 
 	const loginMap = getLoginMap(form, handleChange);
 	const componentNavigation = loginNavMap;
@@ -34,9 +35,13 @@ function Login() {
 	const loginInputs = () =>
 		loginMap.map(({ id, type, label, value, placeholder, onChange }) => {
 			return (
-				<div key={`${id}-container`}>
+				<div
+					key={`${id}-container`}
+					className={`${id}_input_container input_container`}
+				>
 					<InputLabel key={label}>{label}</InputLabel>
 					<TextField
+						fullWidth={true}
 						variant="standard"
 						key={id}
 						id={id}
@@ -52,7 +57,12 @@ function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		await signIn(form);
+		setLoading(true);
+		const response = await signIn(form);
+		console.log(response);
+		setLoading(false);
+		if (response instanceof FirebaseError) return;
+
 		navigate("/homepage");
 		// console.log("Submitted form");
 	};
@@ -76,37 +86,37 @@ function Login() {
 					color={"white"}
 					fontFamily={"'Poppins', sans-serif"}
 					align="left"
+					fontSize={"1.5rem"}
 					width="45%"
-					backgroundColor="green"
-				>
-					Welcome User
-				</Typography>
+				></Typography>
 
 				<Card
 					sx={{
 						width: "45%",
 						height: "30%",
-						padding: "2rem 1.5rem",
+						padding: "1.5rem 1rem",
 						borderRadius: "20px",
 						background: "rgba(255, 255, 255, 0.1)",
 						backdropFilter: "blur(15px)",
 						border: "2px solid rgba(255, 255, 255, 0.1)",
 						boxShadow: "0 0 80px rgba(0, 0, 0, 0.25)",
-						display: "grid",
-						gridTemplateRows: "auto auto",
-						gridTemplateColumns: "1fr 1fr 1fr",
 					}}
 				>
-					<form onSubmit={handleSubmit}>
+					<ApartmentIcon></ApartmentIcon>
+					<form onSubmit={handleSubmit} className="form_container">
 						{loginInputs()}
-						<CardActions>
+						<CardActions
+							sx={{
+								gridColumn: "2/-1",
+								marginBottom: "2.25rem",
+							}}
+						>
 							<Button
 								startIcon={<LoginIcon />}
-								fullWidth={true}
 								disableFocusRipple={true}
+								fullWidth
 								variant="outlined"
 								type="submit"
-								color="success"
 								size="small"
 								className="auth_button"
 							>

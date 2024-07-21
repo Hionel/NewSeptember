@@ -12,6 +12,7 @@ const AuthNavigation = (props) => {
 					to={link.path}
 					color="primary"
 					variant="text"
+					sx={{ fontSize: "0.5rem", textAlign: "center" }}
 					size="small"
 				>
 					{link.text}
