@@ -8,6 +8,7 @@ import { signIn } from "../../../services/firebase/auth/authentication-service";
 
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
+import CircularProgress from "@mui/material/CircularProgress";
 import LoginIcon from "@mui/icons-material/Login";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import Typography from "@mui/material/Typography";
@@ -40,7 +41,9 @@ function Login() {
 					key={`${id}-container`}
 					className={`${id}_input_container input_container`}
 				>
-					<InputLabel key={label}>{label}</InputLabel>
+					<InputLabel key={label} htmlFor={id}>
+						{label}
+					</InputLabel>
 					<TextField
 						fullWidth={true}
 						variant="standard"
@@ -112,11 +115,12 @@ function Login() {
 						<CardActions
 							sx={{
 								gridColumn: "2/-1",
-								marginBottom: "2.25rem",
 							}}
 						>
 							<Button
-								startIcon={<LoginIcon />}
+								startIcon={
+									!loading ? <LoginIcon /> : <CircularProgress size={16} />
+								}
 								disableFocusRipple={true}
 								fullWidth
 								variant="outlined"

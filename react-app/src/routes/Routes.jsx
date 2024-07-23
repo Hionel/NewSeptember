@@ -37,16 +37,24 @@ const routes = [
 			{
 				path: "homepage",
 				element: <Homepage />,
-				// children: [
-				// 	{
-				// 		path: "create",
-				// 		element: <CreateComponent />,
-				// 	},
-				// 	{
-				// 		path: "list",
-				// 		element: <ListComponent />,
-				// 	},
-				// ],
+				children: [
+					{
+						index: true,
+						element: <div>Home</div>,
+					},
+					{
+						path: "users/all",
+						element: <div>AllUsers</div>,
+					},
+					{
+						path: "inbox",
+						element: <div>INBOX</div>,
+					},
+					{
+						path: "profile",
+						element: <div>PROFILE</div>,
+					},
+				],
 			},
 		],
 	},
