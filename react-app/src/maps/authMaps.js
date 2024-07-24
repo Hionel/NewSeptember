@@ -100,65 +100,9 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 	];
 };
 
-export const getResetPasswordFormMap = (
-	formData,
-	handleInputChange,
-	errors
-) => {
-	const emailState = errors.email
-		? errors.email
-		: { success: true, message: "" };
-	const passwordState = errors.password
-		? errors.password
-		: { success: true, message: "" };
-	const confirmPasswordState = errors.confirmPassword
-		? errors.confirmPassword
-		: { success: true, message: "" };
-	return [
-		{
-			id: "email",
-			type: "email",
-			label: "Email",
-			value: formData.email,
-			onChange: handleInputChange,
-			error: emailState.success,
-			hintText: emailState.message,
-		},
-		{
-			id: "password",
-			type: "password",
-			label: "Password",
-			value: formData.password,
-			onChange: handleInputChange,
-			error: passwordState.success,
-			hintText: passwordState.message,
-		},
-		{
-			id: "confirmPassword",
-			type: "password",
-			label: "Confirm Password!",
-			value: formData.confirmPassword,
-			onChange: handleInputChange,
-			error: confirmPasswordState.success,
-			hintText: confirmPasswordState.message,
-		},
-	];
-};
-
 // AUTH-Navigation
 
-// export const resetPasswordNavMap = [
-// 	{
-// 		text: "Remembered your pass?",
-// 		path: "/authentication",
-// 	},
-// ];
-
 export const loginNavMap = [
-	// {
-	// 	text: "Reset Password",
-	// 	path: "reset-password",
-	// },
 	{
 		text: "Create Portofolio?",
 		path: "register",

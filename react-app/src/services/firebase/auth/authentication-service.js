@@ -30,7 +30,7 @@ export const createUserAuthentication = async (userData) => {
 			displayName: displayName,
 		});
 		console.log(user);
-		await createUserDocument(userData);
+		await createUserDocument(userData, user.uid);
 		showToaster(toasterType.success, "Created user successfuly!");
 		return user;
 	} catch (error) {
@@ -57,6 +57,7 @@ export const signIn = async (userData) => {
 
 		showToaster(toasterType.success, "Login successfuly!");
 		console.log(userCredential);
+
 		return user;
 	} catch (error) {
 		console.log(error instanceof FirebaseError);

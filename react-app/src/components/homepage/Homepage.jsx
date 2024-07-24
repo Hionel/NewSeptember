@@ -8,8 +8,6 @@ import { Navigate } from "react-router-dom";
 
 const Homepage = () => {
 	const { currentUser } = useAuth();
-	const currentUsername = currentUser ? currentUser.email : "placeholder";
-	console.log(currentUser);
 
 	return (
 		<>
@@ -17,7 +15,7 @@ const Homepage = () => {
 				<Navigate to={"/authentication"}></Navigate>
 			) : (
 				<div>
-					<Header username={currentUsername}></Header>
+					<Header currentUser={currentUser}></Header>
 					{currentUser ? <Outlet /> : <></>}
 				</div>
 			)}

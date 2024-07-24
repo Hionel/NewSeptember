@@ -1,14 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { IconButton } from "@mui/material";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import MenuIcon from "@mui/icons-material/Menu";
-import { IconButton } from "@mui/material";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Menu from "@mui/material/Menu";
-
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
@@ -17,21 +16,23 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import { signUserOut } from "../../services/firebase/auth/authentication-service";
-import { useNavigate } from "react-router-dom";
 
+import { FIREBASE_ROLES } from "../../maps/firebaseCollections";
 import {
 	NAVMAP,
 	navItems,
 	subProfileNavItems,
 } from "../../maps/navigationMaps";
 
-const Header = ({ username }) => {
+const Header = (props) => {
+	const navigate = useNavigate();
+	const { currentUser } = props;
+	const { displayName, email, role } = currentUser;
+	const username = displayName ? displayName : email;
+
 	const logoTitle = "Hosehold";
-	console.log(username);
 	const [anchorElNav, setAnchorElNav] = useState(null);
 	const [anchorElUser, setAnchorElUser] = useState(null);
-
-	const navigate = useNavigate();
 
 	const handleNavigation = (navItem) => {
 		if (navItem.id === NAVMAP.LOGOUT) {
@@ -39,6 +40,13 @@ const Header = ({ username }) => {
 		}
 		navigate(`${navItem.path}`);
 	};
+
+	const navigationItems = navItems.filter(
+		(page) => role === FIREBASE_ROLES.ADMIN || page.id !== NAVMAP.ALLUSERS
+	);
+
+	console.log(role);
+	console.log(FIREBASE_ROLES.ADMIN);
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -64,7 +72,8 @@ const Header = ({ username }) => {
 						variant="h6"
 						noWrap
 						component="a"
-						href="/homepage"
+						onClick={() => handleNavigation(navItems[0])}
+						// href="/homepage"
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -81,7 +90,7 @@ const Header = ({ username }) => {
 						variant="caption"
 						noWrap
 						component="a"
-						href="/homepage/profile"
+						onClick={() => handleNavigation(subProfileNavItems[0])}
 						sx={{
 							mr: 2,
 							display: { xs: "ƒlex", md: "flex" },
@@ -91,7 +100,7 @@ const Header = ({ username }) => {
 							textDecoration: "none",
 						}}
 					>
-						{`Welcome ${username}`}
+						{`Welcome, ${username}`}
 					</Typography>
 
 					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -123,7 +132,7 @@ const Header = ({ username }) => {
 								display: { xs: "block", md: "none" },
 							}}
 						>
-							{navItems.map((page) => (
+							{navigationItems.map((page) => (
 								<MenuItem
 									key={page.id}
 									onClick={() => {
@@ -164,7 +173,7 @@ const Header = ({ username }) => {
 							mr: 2,
 						}}
 					>
-						{navItems.map((page) => (
+						{navigationItems.map((page) => (
 							<Button
 								key={page.id}
 								startIcon={page.Icon()}
