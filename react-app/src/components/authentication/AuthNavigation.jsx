@@ -2,7 +2,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 
 const AuthNavigation = (props) => {
-	const { links } = props || [];
+	const { links } = props;
 	return (
 		<nav className="auth_navigation displayFlex">
 			{links.map((link, index) => (

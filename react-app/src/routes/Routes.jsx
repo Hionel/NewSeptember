@@ -6,6 +6,10 @@ import Login from "../components/authentication/login/Login";
 import Register from "../components/authentication/register/Register";
 
 import Homepage from "../components/homepage/Homepage";
+import Flats from "../components/homepage/flats/Flats";
+import Profile from "../components/homepage/profile/Profile";
+import Inbox from "../components/homepage/inbox/Inbox";
+import AllUsers from "../components/homepage/allUsers/AllUsers";
 
 const routes = [
 	{
@@ -28,10 +32,6 @@ const routes = [
 						path: "register",
 						element: <Register />,
 					},
-					// {
-					// 	path: "reset-password",
-					// 	element: <ResetPassword />,
-					// },
 				],
 			},
 			{
@@ -40,19 +40,19 @@ const routes = [
 				children: [
 					{
 						index: true,
-						element: <div>Home</div>,
+						element: <Flats />,
 					},
 					{
 						path: "users/all",
-						element: <div>AllUsers</div>,
+						element: <AllUsers />,
 					},
 					{
 						path: "inbox",
-						element: <div>INBOX</div>,
+						element: <Inbox />,
 					},
 					{
 						path: "profile",
-						element: <div>PROFILE</div>,
+						element: <Profile />,
 					},
 				],
 			},

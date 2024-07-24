@@ -1,75 +1,35 @@
 import { useState } from "react";
-import LockIcon from "@mui/icons-material/Lock";
+
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
+
+import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { signUserOut } from "../../services/firebase/auth/authentication-service";
 import { useNavigate } from "react-router-dom";
 
-const NAVMAP = {
-	HOME: "home",
-	ALLUSERS: "allUsers",
-	INBOX: "inbox",
-	LOGOUT: "logout",
-	PROFILE: "profile",
-};
+import {
+	NAVMAP,
+	navItems,
+	subProfileNavItems,
+} from "../../maps/navigationMaps";
 
-function Header() {
+const Header = ({ username }) => {
 	const logoTitle = "Hosehold";
+	console.log(username);
 	const [anchorElNav, setAnchorElNav] = useState(null);
 	const [anchorElUser, setAnchorElUser] = useState(null);
-	const subProfileNavItems = [
-		{
-			id: NAVMAP.PROFILE,
-			label: "Profile",
-			path: "profile",
-			exposeIcon: () => (
-				<IconButton variant="text" type="submit" color="primary" size="small">
-					<AccountCircleIcon />
-				</IconButton>
-			),
-		},
-		{
-			id: NAVMAP.LOGOUT,
-			label: "Logout",
-			path: "/authentication",
-			exposeIcon: () => (
-				<IconButton variant="text" type="submit" color="primary" size="small">
-					<LockIcon />
-				</IconButton>
-			),
-		},
-	];
-
-	const navItems = [
-		{
-			id: NAVMAP.HOME,
-			label: "Home",
-			path: "/homepage",
-		},
-		{
-			id: NAVMAP.ALLUSERS,
-			label: "All Users",
-			path: "users/all",
-		},
-		{
-			id: NAVMAP.INBOX,
-			label: "Inbox",
-			path: "inbox",
-		},
-	];
 
 	const navigate = useNavigate();
 
@@ -99,12 +59,7 @@ function Header() {
 		<AppBar position="static" variant="elevation">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<ApartmentIcon
-						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-						// onClick={() =>
-						// 	navigate(navItems.find((item) => item.id == NAVMAP.HOME))
-						// }
-					/>
+					<ApartmentIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
 					<Typography
 						variant="h6"
 						noWrap
@@ -121,6 +76,22 @@ function Header() {
 						}}
 					>
 						{logoTitle}
+					</Typography>
+					<Typography
+						variant="caption"
+						noWrap
+						component="a"
+						href="/homepage/profile"
+						sx={{
+							mr: 2,
+							display: { xs: "ƒlex", md: "flex" },
+							fontFamily: "monospace",
+							fontWeight: 400,
+							color: "inherit",
+							textDecoration: "none",
+						}}
+					>
+						{`Welcome ${username}`}
 					</Typography>
 
 					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -160,6 +131,7 @@ function Header() {
 										handleCloseNavMenu();
 									}}
 								>
+									{page.Icon()}
 									<Typography textAlign="center">{page.label}</Typography>
 								</MenuItem>
 							))}
@@ -170,7 +142,7 @@ function Header() {
 						variant="h5"
 						noWrap
 						component="a"
-						href="#app-bar-with-responsive-menu"
+						href="/homepage"
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -184,15 +156,23 @@ function Header() {
 					>
 						{logoTitle}
 					</Typography>
-					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+					<Box
+						sx={{
+							flexGrow: 1,
+							display: { xs: "none", md: "flex" },
+							justifyContent: "flex-end",
+							mr: 2,
+						}}
+					>
 						{navItems.map((page) => (
 							<Button
 								key={page.id}
+								startIcon={page.Icon()}
 								onClick={() => {
 									handleNavigation(page);
 									handleCloseNavMenu();
 								}}
-								sx={{ my: 2, color: "white", display: "block" }}
+								sx={{ my: 2, color: "white", display: "flex" }}
 							>
 								{page.label}
 							</Button>
@@ -229,7 +209,7 @@ function Header() {
 										handleCloseUserMenu();
 									}}
 								>
-									{subNavOption.exposeIcon()}
+									{subNavOption.Icon()}
 									<Typography textAlign="center">
 										{subNavOption.label}
 									</Typography>
@@ -241,5 +221,5 @@ function Header() {
 			</Container>
 		</AppBar>
 	);
-}
+};
 export default Header;

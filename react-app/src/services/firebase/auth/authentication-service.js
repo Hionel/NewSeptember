@@ -29,7 +29,7 @@ export const createUserAuthentication = async (userData) => {
 		await updateProfile(user, {
 			displayName: displayName,
 		});
-
+		console.log(user);
 		await createUserDocument(userData);
 		showToaster(toasterType.success, "Created user successfuly!");
 		return user;
