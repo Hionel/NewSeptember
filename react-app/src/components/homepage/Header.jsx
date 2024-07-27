@@ -64,7 +64,7 @@ const Header = (props) => {
 	};
 
 	return (
-		<AppBar position="static" variant="elevation">
+		<AppBar position="static" sx={{ height: "100%" }}>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<ApartmentIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

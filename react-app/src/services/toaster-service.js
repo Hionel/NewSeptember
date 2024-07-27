@@ -10,7 +10,7 @@ export const toasterType = {
 
 const showToaster = (type, message, duration = 5000) => {
 	toast[type](`${message}`, {
-		position: "top-right",
+		position: "bottom-right",
 		autoClose: duration,
 		hideProgressBar: false,
 		closeOnClick: true,

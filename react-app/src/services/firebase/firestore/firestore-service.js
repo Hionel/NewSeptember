@@ -1,7 +1,7 @@
 import { doc, setDoc } from "firebase/firestore";
 import { firebaseFirestore } from "../firebase-service";
 import { FIREBASE_COLLECTIONS } from "../../../maps/firebaseCollections";
-import { signIn } from "../auth/authentication-service";
+// import { signIn } from "../auth/authentication-service";
 
 const USERS_COLLECTION_REF = FIREBASE_COLLECTIONS.USERS;
 const DEFAULT_ROLE = "user";
@@ -23,7 +23,7 @@ export const createUserDocument = async (userData, userUID) => {
 			throw new Error("Something went wrong while creating the user document!");
 
 		console.log("Document written with ID: ", docRef.id);
-		await signIn(userData);
+		// await signIn(userData);
 	} catch (e) {
 		console.error("Error adding document: ", e);
 	}

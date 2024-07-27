@@ -1,10 +1,21 @@
 // import { useState } from "react";
 import Container from "@mui/material/Container";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./Auth.css";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useEffect } from "react";
 
 function Auth() {
-	const backgroundUrl = "url(./../public/citiView.jpg)";
+	const navigate = useNavigate();
+	const { currentUser } = useAuth();
+	const backgroundUrl = "url(/citiView.jpg)";
+
+	useEffect(() => {
+		if (currentUser) {
+			navigate("homepage");
+		}
+	}, []);
+
 	return (
 		<>
 			<Container

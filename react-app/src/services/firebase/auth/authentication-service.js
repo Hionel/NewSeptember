@@ -31,6 +31,7 @@ export const createUserAuthentication = async (userData) => {
 		});
 		console.log(user);
 		await createUserDocument(userData, user.uid);
+		// debugger;
 		showToaster(toasterType.success, "Created user successfuly!");
 		return user;
 	} catch (error) {
