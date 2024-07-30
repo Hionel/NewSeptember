@@ -7,7 +7,7 @@ import {
 import { FirebaseError } from "firebase/app";
 
 import { updateProfile } from "firebase/auth";
-import { createUserDocument } from "../firestore/firestore-service";
+import { createUserDocument } from "../firestore/firestore-user-service";
 
 import showToaster, { toasterType } from "../../toaster-service";
 

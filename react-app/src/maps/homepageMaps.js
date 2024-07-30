@@ -1,0 +1,78 @@
+export const getFlatInputMap = (formData, handleInputChange) => {
+	const inputs = [
+		{
+			id: "flatName",
+			type: "text",
+			value: formData.flatName,
+			onChange: handleInputChange,
+			label: "Name:",
+			placeholder: "",
+			name: "flatName",
+		},
+		{
+			id: "city",
+			type: "text",
+			value: formData.city,
+			onChange: handleInputChange,
+			label: "City:",
+			placeholder: "San Francisco",
+			name: "city",
+		},
+		{
+			id: "streetName",
+			type: "text",
+			value: formData.streetName,
+			onChange: handleInputChange,
+			label: "Street Name:",
+			placeholder: "Sunset boulverad",
+			name: "streetName",
+		},
+		{
+			id: "streetNumber",
+			type: "text",
+			value: formData.streetNumber,
+			onChange: handleInputChange,
+			label: "Street Number:",
+			placeholder: "Sunset boulverad",
+			name: "streetNumber",
+		},
+		{
+			id: "yearBuilt",
+			type: "text",
+			value: formData.yearBuilt,
+			onChange: handleInputChange,
+			label: "Year Built:",
+			placeholder: "1995",
+			name: "yearBuilt",
+		},
+		{
+			id: "rentPrice",
+			type: "text",
+			value: formData.rentPrice,
+			onChange: handleInputChange,
+			label: "Rent Price",
+			placeholder: "$15000",
+			name: "rentPrice",
+		},
+		{
+			id: "availableDate",
+			type: "date",
+			value: formData.availableDate,
+			onChange: handleInputChange,
+			label: "Availabe Date:",
+			placeholder: "Sunset boulverad",
+			name: "availableDate",
+		},
+		{
+			id: "hasAC",
+			type: "checkbox",
+			value: formData.hasAC,
+			onChange: handleInputChange,
+			label: "Has AC ?",
+			placeholder: "Sunset boulverad",
+			name: "hasAC",
+		},
+	];
+
+	return inputs;
+};

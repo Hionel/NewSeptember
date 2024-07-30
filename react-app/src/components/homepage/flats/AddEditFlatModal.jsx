@@ -10,6 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { getFlatInputMap } from "../../../maps/homepageMaps";
 
 const style = {
 	position: "absolute",
@@ -23,28 +24,19 @@ const style = {
 	p: 4,
 };
 
-const inputFields = [
-	{ name: "name", label: "Name", type: "text" },
-	{ name: "city", label: "City", type: "text" },
-	{ name: "streetName", label: "Street Name", type: "text" },
-	{ name: "streetNumber", label: "Street Number", type: "number" },
-	{ name: "yearBuilt", label: "Year Built", type: "number" },
-	{ name: "rentPrice", label: "Rent Price", type: "number" },
-	{ name: "availableDate", label: "Available Date", type: "date" },
-	{ name: "hasAC", label: "Has AC ?", type: "checkbox" },
-];
+const initialStateObject = {
+	flatName: "",
+	city: "",
+	streetName: "",
+	streetNumber: "",
+	yearBuilt: "",
+	rentPrice: "",
+	availableDate: "",
+	hasAC: false,
+};
 
-const AddEditFlat = (props) => {
-	const { open, onClose, formData = null, onSave } = props;
-
-	const [flatData, setFlatData] = useState(
-		inputFields.reduce((acc, field) => {
-			acc[field.name] = field.type === "checkbox" ? false : "";
-			return acc;
-		}, {})
-	);
-
-	const modalTitle = formData ? "Edit Flat" : "Add Flat";
+const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
+	const [flatData, setFlatData] = useState(initialStateObject);
 
 	useEffect(() => {
 		if (formData) {
@@ -53,12 +45,7 @@ const AddEditFlat = (props) => {
 				...formData,
 			}));
 		} else {
-			setFlatData(
-				inputFields.reduce((acc, field) => {
-					acc[field.name] = field.type === "checkbox" ? false : "";
-					return acc;
-				}, {})
-			);
+			setFlatData(initialStateObject);
 		}
 	}, [formData]);
 
@@ -70,9 +57,10 @@ const AddEditFlat = (props) => {
 		}));
 	};
 
+	const inputFields = getFlatInputMap(flatData, handleChange);
+
 	const handleSave = () => {
 		onSave(flatData);
-		onClose();
 	};
 
 	return (
@@ -92,7 +80,7 @@ const AddEditFlat = (props) => {
 			<Fade in={open}>
 				<Box sx={style}>
 					<Typography id="transition-modal-title" variant="h6" component="h2">
-						{modalTitle}
+						{formData ? "Edit Flat" : "Add Flat"}
 					</Typography>
 					<Box
 						component="form"
@@ -156,4 +144,4 @@ const AddEditFlat = (props) => {
 	);
 };
 
-export default AddEditFlat;
+export default AddEditFlatModal;
