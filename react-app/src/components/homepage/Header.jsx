@@ -19,7 +19,7 @@ import { signUserOut } from "../../services/firebase/auth/authentication-service
 
 import { FIREBASE_ROLES } from "../../maps/firebaseCollections";
 import {
-	NAVMAP,
+	NAV_MAP,
 	navItems,
 	subProfileNavItems,
 } from "../../maps/navigationMaps";
@@ -35,18 +35,15 @@ const Header = (props) => {
 	const [anchorElUser, setAnchorElUser] = useState(null);
 
 	const handleNavigation = (navItem) => {
-		if (navItem.id === NAVMAP.LOGOUT) {
+		if (navItem.id === NAV_MAP.LOGOUT) {
 			signUserOut();
 		}
 		navigate(`${navItem.path}`);
 	};
 
 	const navigationItems = navItems.filter(
-		(page) => role === FIREBASE_ROLES.ADMIN || page.id !== NAVMAP.ALLUSERS
+		(page) => role === FIREBASE_ROLES.ADMIN || page.id !== NAV_MAP.ALLUSERS
 	);
-
-	console.log(role);
-	console.log(FIREBASE_ROLES.ADMIN);
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);

@@ -5,6 +5,7 @@ import { useState } from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 import CardActions from "@mui/material/CardActions";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { Button, TextField } from "@mui/material";
@@ -16,7 +17,7 @@ import { createUserAuthentication } from "../../../services/firebase/auth/authen
 import { getRegisterFormMap, registerNavMap } from "../../../maps/authMaps";
 
 function Register() {
-	const { form, handleChange, errors, isFormValid } = useForm({
+	const { form, handleChange, handleError, errors, isFormValid } = useForm({
 		email: "",
 		firstName: "",
 		lastName: "",
@@ -29,11 +30,16 @@ function Register() {
 		"Please create an account in order to access the application";
 	const buttonText = "Sign Up";
 	const navigate = useNavigate();
-	const registerMap = getRegisterFormMap(form, handleChange, errors);
+	const registerMap = getRegisterFormMap(
+		form,
+		handleChange,
+		handleError,
+		errors
+	);
 	const componentNavigation = registerNavMap;
-
+	console.log(errors);
 	const registerInputs = () =>
-		registerMap.map(({ id, type, label, value, onChange }) => {
+		registerMap.map(({ id, type, label, value, onChange, onBlur }) => {
 			return (
 				<TextField
 					variant="standard"
@@ -44,7 +50,12 @@ function Register() {
 					label={label}
 					value={value}
 					onChange={onChange}
-					className="form_input"
+					onBlur={onBlur}
+					helperText={errors[id].message}
+					error={errors[id] != "" ? !errors[id].success : false}
+					sx={{
+						height: "2rem",
+					}}
 				/>
 			);
 		});
@@ -87,13 +98,23 @@ function Register() {
 					color={"white"}
 					fontFamily={"'Poppins', sans-serif"}
 					align="left"
-					sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+					sx={{ display: "flex", alignItems: "center" }}
 				>
 					<ApartmentIcon></ApartmentIcon>
 					{pageTitle}
 				</Typography>
+				<Divider></Divider>
 				<form onSubmit={handleSubmit}>
-					<Container sx={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+					<Container
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "center",
+							flexWrap: "wrap",
+							gap: "3rem",
+							margin: "1rem 0rem 2.5rem 0rem",
+						}}
+					>
 						{registerInputs()}
 					</Container>
 					<CardActions>

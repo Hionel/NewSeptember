@@ -13,6 +13,7 @@ export const createUserDocument = async (userData, userUID) => {
 			firstName: userData.firstName,
 			lastName: userData.lastName,
 			age: userData.age,
+			favoriteFlats: [],
 			creationDate: new Date(),
 			role: DEFAULT_ROLE,
 		};

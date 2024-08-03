@@ -9,10 +9,15 @@ export const useForm = (initialFormState) => {
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setForm({ ...form, [name]: value });
+	};
+
+	const handleError = (e) => {
+		const { name, value } = e.target;
 		validateFields(name, value);
 	};
 
 	const validateFields = (fieldName, inputValue) => {
+		console.log(fieldName, inputValue);
 		let validationResponse = null;
 		if (fieldName === "confirmPassword") {
 			validationResponse = validationRules[fieldName](
@@ -20,9 +25,6 @@ export const useForm = (initialFormState) => {
 				form.password
 			);
 		} else {
-			console.log(fieldName);
-			console.log(validationRules);
-			console.log(validationRules[fieldName]);
 			validationResponse = validationRules[fieldName](inputValue);
 		}
 
@@ -38,5 +40,5 @@ export const useForm = (initialFormState) => {
 		setIsFormValid(isValid);
 	}, [errors, form]);
 
-	return { form, handleChange, errors, isFormValid };
+	return { form, handleChange, handleError, errors, isFormValid };
 };

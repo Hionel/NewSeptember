@@ -31,23 +31,24 @@ const Homepage = () => {
 				<Navigate to={"/authentication"}></Navigate>
 			) : (
 				<Container
-					maxWidth="xl"
+					maxWidth="none"
 					disableGutters
 					sx={{
 						height: "100%",
+						margin: "0",
 						display: "flex",
 						flexDirection: "column",
 					}}
 				>
 					<Container
 						disableGutters
-						maxWidth="xl"
+						maxWidth="none"
 						sx={{ height: "fit-content" }}
 					>
 						<Header currentUser={currentUser}></Header>
 					</Container>
 
-					<Container disableGutters maxWidth="xl" sx={{ flexGrow: "1" }}>
+					<Container disableGutters maxWidth="none" sx={{ flexGrow: "1" }}>
 						<Outlet />
 					</Container>
 				</Container>

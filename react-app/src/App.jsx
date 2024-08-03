@@ -5,11 +5,13 @@ import { Outlet } from "react-router-dom";
 
 function App() {
 	return (
-		<>
-			<Container disableGutters maxWidth="xl" sx={{ height: "100vh" }}>
-				<Outlet />
-			</Container>
-		</>
+		<Container
+			disableGutters
+			maxWidth="none"
+			sx={{ height: "100vh", margin: "0", width: "100vw" }}
+		>
+			<Outlet />
+		</Container>
 	);
 }
 

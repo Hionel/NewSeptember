@@ -24,23 +24,11 @@ export const getLoginMap = (formData, handleInputChange) => {
 	return inputs;
 };
 
-export const getRegisterFormMap = (formData, handleInputChange, errors) => {
-	const emailState = errors.email
-		? errors.email
-		: { success: true, message: "" };
-	const passwordState = errors.password
-		? errors.password
-		: { success: true, message: "" };
-	const confirmPasswordState = errors.confirmPassword
-		? errors.confirmPassword
-		: { success: true, message: "" };
-	const firstNameState = errors.firstName
-		? errors.firstName
-		: { success: true, message: "" };
-	const lastNameState = errors.lastName
-		? errors.lastName
-		: { success: true, message: "" };
-	const ageState = errors.age ? errors.age : { success: true, message: "" };
+export const getRegisterFormMap = (
+	formData,
+	handleInputChange,
+	handleErrorBlur
+) => {
 	return [
 		{
 			id: "email",
@@ -48,8 +36,7 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 			label: "Email",
 			value: formData.email,
 			onChange: handleInputChange,
-			error: emailState.success,
-			hintText: emailState.message,
+			onBlur: handleErrorBlur,
 		},
 
 		{
@@ -58,8 +45,7 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 			label: "First Name",
 			value: formData.firstName,
 			onChange: handleInputChange,
-			error: firstNameState.success,
-			hintText: firstNameState.message,
+			onBlur: handleErrorBlur,
 		},
 		{
 			id: "lastName",
@@ -67,8 +53,7 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 			label: "Last Name",
 			value: formData.lastName,
 			onChange: handleInputChange,
-			error: lastNameState.success,
-			hintText: lastNameState.message,
+			onBlur: handleErrorBlur,
 		},
 		{
 			id: "age",
@@ -76,8 +61,7 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 			label: "Age",
 			value: formData.age,
 			onChange: handleInputChange,
-			error: ageState.success,
-			hintText: ageState.message,
+			onBlur: handleErrorBlur,
 		},
 		{
 			id: "password",
@@ -85,8 +69,7 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 			label: "Password",
 			value: formData.password,
 			onChange: handleInputChange,
-			error: passwordState.success,
-			hintText: passwordState.message,
+			onBlur: handleErrorBlur,
 		},
 		{
 			id: "confirmPassword",
@@ -94,8 +77,7 @@ export const getRegisterFormMap = (formData, handleInputChange, errors) => {
 			label: "Confirm Password",
 			value: formData.confirmPassword,
 			onChange: handleInputChange,
-			error: confirmPasswordState.success,
-			hintText: confirmPasswordState.message,
+			onBlur: handleErrorBlur,
 		},
 	];
 };
