@@ -10,6 +10,9 @@ import Flats from "../components/homepage/flats/Flats";
 import Profile from "../components/homepage/profile/Profile";
 import Inbox from "../components/homepage/inbox/Inbox";
 import AllUsers from "../components/homepage/allUsers/AllUsers";
+// import AllFlats from "../components/homepage/flats/AllFlats";
+// import FavoritesFlats from "../components/homepage/flats/FavoritesFlats";
+// import MyFlats from "../components/homepage/flats/MyFlats";
 
 const routes = [
 	{
@@ -39,9 +42,24 @@ const routes = [
 				element: <Homepage />,
 				children: [
 					{
-						index: true,
+						path: "flats",
 						element: <Flats />,
+						// children: [
+						// 	{
+						// 		path: "all-flats",
+						// 		element: <AllFlats />,
+						// 	},
+						// 	{
+						// 		path: "my-flats",
+						// 		element: <MyFlats />,
+						// 	},
+						// 	{
+						// 		path: "favorites",
+						// 		element: <FavoritesFlats />,
+						// 	},
+						// ],
 					},
+
 					{
 						path: "users/all",
 						element: <AllUsers />,

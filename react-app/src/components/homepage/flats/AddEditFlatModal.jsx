@@ -61,6 +61,7 @@ const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
 
 	const handleSave = () => {
 		onSave(flatData);
+		onClose();
 	};
 
 	return (

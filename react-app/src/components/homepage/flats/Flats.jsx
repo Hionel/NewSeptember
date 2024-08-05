@@ -1,69 +1,154 @@
-import { useState } from "react";
-
-import AppBar from "@mui/material/AppBar";
-import AddEditFlatModal from "./AddEditFlatModal";
-
+import { useState, useMemo, useCallback } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
-import { createFlatDocument } from "../../../services/firebase/firestore/firestore-apartments-service";
 
-import { Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { FIREBASE_ROLES } from "../../../maps/firebaseCollections";
+import {
+	createFlatDocument,
+	deleteFlatDocument,
+	toggleFavoriteFlat,
+	getApartments,
+} from "../../../services/firebase/firestore/firestore-flats-service";
+
+import AddEditFlatModal from "./AddEditFlatModal";
+import AppBar from "@mui/material/AppBar";
+import { Button, Container } from "@mui/material";
 import List from "@mui/material/List";
-// import Box from "@mui/material/Box";
-// import Drawer from "@mui/material/Drawer";
-// import CssBaseline from "@mui/material/CssBaseline";
-// import Typography from "@mui/material/Typography";
-// import Divider from "@mui/material/Divider";
-// import ListItem from "@mui/material/ListItem";
-// import ListItemButton from "@mui/material/ListItemButton";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import ListItemText from "@mui/material/ListItemText";
-// import InboxIcon from "@mui/icons-material/MoveToInbox";
-// import MailIcon from "@mui/icons-material/Mail";
-// import Toolbar from "@mui/material/Toolbar";
+import DataTable from "../../shared/DataTable";
+
+import {
+	homepageNavItems,
+	NAV_MAP,
+	FILTER_TABEL_MAP,
+} from "../../../maps/navigationMaps";
+import { getFlatsTableHeaders } from "../../../maps/tableMaps";
 
 const Flats = () => {
 	const { currentUser } = useAuth();
+	const isAdmin = currentUser.role === FIREBASE_ROLES.ADMIN;
 	const [openModal, setOpenModal] = useState(false);
+	const [tableFilter, setTableFilter] = useState(FILTER_TABEL_MAP.ALLFLATS);
 	const [loading, setLoading] = useState(false);
 
-	const handleOpen = () => setOpenModal(true);
-	const handleClose = () => setOpenModal(false);
+	const handleOpenModal = () => setOpenModal(true);
+	const handleCloseModal = () => setOpenModal(false);
+
+	const handleTableData = useCallback(async (filter) => {
+		setLoading(true);
+		try {
+			setTableFilter(filter);
+		} catch (error) {
+			console.error("Error updating table data: ", error);
+		} finally {
+			setLoading(false);
+		}
+	}, []);
+
+	const handleDelete = useCallback(
+		async (id) => {
+			setLoading(true);
+			try {
+				await deleteFlatDocument(id);
+				handleTableData(tableFilter); // Refresh the table data
+			} catch (error) {
+				console.error("Error deleting document: ", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[handleTableData, tableFilter]
+	);
+
+	const handleFavorite = useCallback(
+		async (id) => {
+			setLoading(true);
+			try {
+				await toggleFavoriteFlat(id, currentUser.uid);
+				handleTableData(tableFilter); // Refresh the table data
+			} catch (error) {
+				console.error("Error favoriting document: ", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[handleTableData, tableFilter, currentUser.uid]
+	);
 
 	const handleAddEditSave = async (formData) => {
 		setLoading(true);
-		console.log(formData);
 		try {
 			await createFlatDocument(formData, currentUser);
-			setLoading(false);
+			handleTableData(tableFilter); // This will ensure the table filter updates
 		} catch (error) {
-			console.log(error);
+			console.error("Error saving data: ", error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
+	const flatsTableColumns = useMemo(
+		() =>
+			getFlatsTableHeaders(
+				handleDelete,
+				handleFavorite,
+				currentUser.uid,
+				isAdmin
+			),
+		[currentUser.uid, isAdmin]
+	);
+
 	return (
-		<AppBar
-			position="static"
-			sx={{ width: "fit-content", padding: "0rem 0.5rem", height: "100%" }}
+		<Container
+			disableGutters
+			maxWidth="xl"
+			sx={{ height: "100%", margin: "0", display: "flex" }}
 		>
-			<List>
-				<Button
-					onClick={handleOpen}
-					variant="contained"
-					startIcon={<AddIcon />}
-					color="info"
+			<AppBar
+				position="static"
+				sx={{ width: "fit-content", padding: "0rem 0.5rem", height: "100%" }}
+			>
+				<List
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						gap: "0.5rem",
+						justifyContent: "flex-start",
+					}}
 				>
-					Add
-				</Button>
-			</List>
-			{!loading && (
-				<AddEditFlatModal
-					open={openModal}
-					onClose={handleClose}
-					onSave={handleAddEditSave}
+					{homepageNavItems.map((navItem) => (
+						<Button
+							key={navItem.id}
+							onClick={
+								navItem.id === NAV_MAP.ADD
+									? handleOpenModal
+									: () => handleTableData(navItem.filter)
+							}
+							variant="contained"
+							startIcon={navItem.Icon()}
+							color="info"
+							size="small"
+						>
+							{navItem.label}
+						</Button>
+					))}
+				</List>
+				{!loading && (
+					<AddEditFlatModal
+						open={openModal}
+						onClose={handleCloseModal}
+						onSave={handleAddEditSave}
+					/>
+				)}
+			</AppBar>
+			<Container disableGutters maxWidth="none" sx={{ flexGrow: "1", m: "0" }}>
+				<DataTable
+					columns={flatsTableColumns}
+					filter={tableFilter}
+					uid={currentUser.uid}
+					loading={loading}
+					getData={getApartments}
 				/>
-			)}
-		</AppBar>
+			</Container>
+		</Container>
 	);
 };
 
