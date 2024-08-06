@@ -12,6 +12,7 @@ import {
 import AddEditFlatModal from "./AddEditFlatModal";
 import AppBar from "@mui/material/AppBar";
 import { Button, Container } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import DataTable from "../../shared/DataTable";
 
@@ -24,10 +25,10 @@ import { getFlatsTableHeaders } from "../../../maps/tableMaps";
 
 const Flats = () => {
 	const { currentUser } = useAuth();
-	const isAdmin = currentUser.role === FIREBASE_ROLES.ADMIN;
 	const [openModal, setOpenModal] = useState(false);
 	const [tableFilter, setTableFilter] = useState(FILTER_TABEL_MAP.ALLFLATS);
 	const [loading, setLoading] = useState(false);
+	const isAdmin = currentUser.role === FIREBASE_ROLES.ADMIN;
 
 	const handleOpenModal = () => setOpenModal(true);
 	const handleCloseModal = () => setOpenModal(false);
@@ -99,12 +100,12 @@ const Flats = () => {
 	return (
 		<Container
 			disableGutters
-			maxWidth="xl"
+			maxWidth="none"
 			sx={{ height: "100%", margin: "0", display: "flex" }}
 		>
 			<AppBar
 				position="static"
-				sx={{ width: "fit-content", padding: "0rem 0.5rem", height: "100%" }}
+				sx={{ width: "15%", padding: "0rem 0.5rem", height: "100%" }}
 			>
 				<List
 					sx={{
@@ -139,7 +140,16 @@ const Flats = () => {
 					/>
 				)}
 			</AppBar>
-			<Container disableGutters maxWidth="none" sx={{ flexGrow: "1", m: "0" }}>
+			<Container
+				maxWidth="none"
+				sx={{ width: "85%", m: "0rem", p: "0.5rem 0rem" }}
+			>
+				<Typography variant="h3" component="h3">
+					{
+						homepageNavItems.find((navItem) => navItem.filter === tableFilter)
+							.label
+					}
+				</Typography>
 				<DataTable
 					columns={flatsTableColumns}
 					filter={tableFilter}

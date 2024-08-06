@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 const DataTable = (props) => {
 	const [rows, setRows] = useState([]);
 	const { columns, filter, uid, loading, getData } = props;
+
 	useEffect(() => {
 		const fetchData = async () => {
 			if (!getData) return;
@@ -29,13 +30,23 @@ const DataTable = (props) => {
 				},
 			}}
 			pageSizeOptions={[10, 25, 50, 100]}
-			checkboxSelection
+			checkboxSelection={false}
+			disableRowSelectionOnClick
+			autosizeOnMount={true}
+			autoHeight={true}
 			loading={loading}
+			rowHeight={35}
 			slotProps={{
 				loadingOverlay: {
 					variant: "linear-progress",
 					noRowsVariant: "skeleton",
 				},
+				toolbar: {
+					showQuickFilter: true,
+				},
+			}}
+			sx={{
+				width: "100%",
 			}}
 		/>
 	);

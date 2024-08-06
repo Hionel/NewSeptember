@@ -42,6 +42,10 @@ const routes = [
 				element: <Homepage />,
 				children: [
 					{
+						index: true,
+						element: <Navigate replace to="flats" />,
+					},
+					{
 						path: "flats",
 						element: <Flats />,
 						// children: [

@@ -51,7 +51,7 @@ export const getFlatsTableHeaders = (
 			field: "actions",
 			headerName: "Actions",
 			sortable: false,
-			width: 150,
+			flex: 2,
 			renderCell: (params) => (
 				<>
 					<IconButton
