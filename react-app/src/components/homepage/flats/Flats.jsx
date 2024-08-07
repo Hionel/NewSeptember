@@ -88,9 +88,7 @@ const Flats = () => {
 		async (formData, docId = null, editMode = false) => {
 			setLoading(true);
 			try {
-				editMode
-					? await saveFlatDocument(formData, currentUser, true, docId)
-					: await saveFlatDocument(formData, currentUser);
+				await saveFlatDocument(formData, currentUser, editMode, docId);
 				handleTableData(tableFilter); // This will ensure the table filter updates
 			} catch (error) {
 				console.error("Error saving data: ", error);

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid } from "@mui/x-data-grid";
 
 const DataTable = (props) => {
@@ -33,6 +34,7 @@ const DataTable = (props) => {
 			disableRowSelectionOnClick
 			autoHeight={true}
 			loading={loading}
+			slots={{ toolbar: GridToolbar }}
 			slotProps={{
 				loadingOverlay: {
 					variant: "linear-progress",
@@ -43,7 +45,10 @@ const DataTable = (props) => {
 				},
 			}}
 			sx={{
-				width: "fit-content",
+				"&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
+					outline: "none",
+				},
+				width: "max-content",
 			}}
 		/>
 	);

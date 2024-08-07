@@ -9,7 +9,7 @@ Currently, two official plugins are available:
   feature/flats
 
   1.Flats filters - DONE
-  2.Edit Flat - DONE
-  3.Modal validation
-  4.Tabel improvements - ADD FILTERING AND SERACH !
+  2.Edit Flat - DONE - FIXED
+  3.Modal validation - WIP
+  4.Tabel improvements - ADD FILTERING AND SERACH ! - DONE
   5.Small styling improvs
