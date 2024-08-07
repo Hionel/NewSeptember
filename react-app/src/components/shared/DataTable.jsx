@@ -30,12 +30,9 @@ const DataTable = (props) => {
 				},
 			}}
 			pageSizeOptions={[10, 25, 50, 100]}
-			checkboxSelection={false}
 			disableRowSelectionOnClick
-			autosizeOnMount={true}
 			autoHeight={true}
 			loading={loading}
-			rowHeight={35}
 			slotProps={{
 				loadingOverlay: {
 					variant: "linear-progress",
@@ -46,7 +43,7 @@ const DataTable = (props) => {
 				},
 			}}
 			sx={{
-				width: "100%",
+				width: "fit-content",
 			}}
 		/>
 	);

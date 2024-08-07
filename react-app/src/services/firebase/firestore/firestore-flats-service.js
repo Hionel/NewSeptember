@@ -22,7 +22,12 @@ const FLATS_COLLECTION_NAME = FIREBASE_COLLECTIONS.FLATS;
 const USERS_COLLECTION_NAME = FIREBASE_COLLECTIONS.USERS;
 const MAX_BATCH_SIZE = 10;
 
-export const createFlatDocument = async (apartmentData, currentUser) => {
+export const saveFlatDocument = async (
+	apartmentData,
+	currentUser,
+	isEdit = false,
+	docId = null
+) => {
 	const userUID = currentUser.uid;
 	console.log(apartmentData, userUID);
 	try {
@@ -39,16 +44,25 @@ export const createFlatDocument = async (apartmentData, currentUser) => {
 			documentCreationDate: new Date(),
 		};
 
-		const docRef = doc(collection(firebaseFirestore, FLATS_COLLECTION_NAME));
-		await setDoc(docRef, data);
-
-		if (!docRef)
-			throw new Error("Something went wrong while creating the user document!");
-
-		console.log("Document written with ID: ", docRef.id);
+		if (isEdit && docId) {
+			const docRef = doc(firebaseFirestore, FLATS_COLLECTION_NAME, docId);
+			await updateDoc(docRef, data);
+			console.log("Document updated with ID: ", docRef.id);
+		} else {
+			const docRef = doc(collection(firebaseFirestore, FLATS_COLLECTION_NAME));
+			await setDoc(docRef, data);
+			if (!docRef)
+				throw new Error(
+					"Something went wrong while creating the user document!"
+				);
+			console.log("Document written with ID: ", docRef.id);
+		}
 	} catch (e) {
-		console.error("Error adding document: ", e);
-		showToaster("error", "Error adding flat document");
+		console.error("Error saving document: ", e);
+		showToaster(
+			"error",
+			`Error ${isEdit ? "updating" : "adding"} flat document`
+		);
 	}
 };
 

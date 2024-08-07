@@ -37,14 +37,17 @@ const initialStateObject = {
 
 const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
 	const [flatData, setFlatData] = useState(initialStateObject);
+	const [editMode, setEditMode] = useState(initialStateObject);
 
 	useEffect(() => {
 		if (formData) {
+			setEditMode(true);
 			setFlatData((prevData) => ({
 				...prevData,
 				...formData,
 			}));
 		} else {
+			setEditMode(false);
 			setFlatData(initialStateObject);
 		}
 	}, [formData]);
@@ -60,7 +63,7 @@ const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
 	const inputFields = getFlatInputMap(flatData, handleChange);
 
 	const handleSave = () => {
-		onSave(flatData);
+		editMode ? onSave(flatData, formData.id) : onSave(flatData);
 		onClose();
 	};
 

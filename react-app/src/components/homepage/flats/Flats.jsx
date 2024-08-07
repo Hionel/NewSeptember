@@ -3,7 +3,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 
 import { FIREBASE_ROLES } from "../../../maps/firebaseCollections";
 import {
-	createFlatDocument,
+	saveFlatDocument,
 	deleteFlatDocument,
 	toggleFavoriteFlat,
 	getApartments,
@@ -26,6 +26,7 @@ import { getFlatsTableHeaders } from "../../../maps/tableMaps";
 const Flats = () => {
 	const { currentUser } = useAuth();
 	const [openModal, setOpenModal] = useState(false);
+	const [editData, setEditData] = useState(null);
 	const [tableFilter, setTableFilter] = useState(FILTER_TABEL_MAP.ALLFLATS);
 	const [loading, setLoading] = useState(false);
 	const isAdmin = currentUser.role === FIREBASE_ROLES.ADMIN;
@@ -74,23 +75,38 @@ const Flats = () => {
 		[handleTableData, tableFilter, currentUser.uid]
 	);
 
-	const handleAddEditSave = async (formData) => {
-		setLoading(true);
+	const openEditModal = useCallback(async (flatData) => {
 		try {
-			await createFlatDocument(formData, currentUser);
-			handleTableData(tableFilter); // This will ensure the table filter updates
+			setEditData(flatData);
+			handleOpenModal();
 		} catch (error) {
-			console.error("Error saving data: ", error);
-		} finally {
-			setLoading(false);
+			console.error("Error favoriting document: ", error);
 		}
-	};
+	}, []);
+
+	const handleAddEditSave = useCallback(
+		async (formData, docId = null, editMode = false) => {
+			setLoading(true);
+			try {
+				editMode
+					? await saveFlatDocument(formData, currentUser, true, docId)
+					: await saveFlatDocument(formData, currentUser);
+				handleTableData(tableFilter); // This will ensure the table filter updates
+			} catch (error) {
+				console.error("Error saving data: ", error);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[currentUser, handleTableData, tableFilter]
+	);
 
 	const flatsTableColumns = useMemo(
 		() =>
 			getFlatsTableHeaders(
 				handleDelete,
 				handleFavorite,
+				openEditModal,
 				currentUser.uid,
 				isAdmin
 			),
@@ -137,6 +153,7 @@ const Flats = () => {
 						open={openModal}
 						onClose={handleCloseModal}
 						onSave={handleAddEditSave}
+						formData={editData}
 					/>
 				)}
 			</AppBar>

@@ -8,8 +8,8 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
   feature/flats
 
-  1.Flats filters
-  2.Edit Flat
+  1.Flats filters - DONE
+  2.Edit Flat - DONE
   3.Modal validation
-  4.Tabel improvements
+  4.Tabel improvements - ADD FILTERING AND SERACH !
   5.Small styling improvs
