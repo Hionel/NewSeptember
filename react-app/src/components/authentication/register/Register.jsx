@@ -1,4 +1,4 @@
-import { useForm } from "../../../customHooks/useForm";
+import { useAuthForm } from "../../../customHooks/useAuthForm";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -16,26 +16,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { createUserAuthentication } from "../../../services/firebase/auth/authentication-service";
 import { getRegisterFormMap, registerNavMap } from "../../../maps/authMaps";
 
+const initialStateObject = {
+	email: "",
+	firstName: "",
+	lastName: "",
+	age: "",
+	password: "",
+	confirmPassword: "",
+};
+
 function Register() {
-	const { form, handleChange, handleError, errors, isFormValid } = useForm({
-		email: "",
-		firstName: "",
-		lastName: "",
-		age: "",
-		password: "",
-		confirmPassword: "",
-	});
+	const { form, handleChange, handleError, errors, isFormValid } =
+		useAuthForm(initialStateObject);
 	const [loading, setLoading] = useState(false);
 	const pageTitle =
 		"Please create an account in order to access the application";
 	const buttonText = "Sign Up";
 	const navigate = useNavigate();
-	const registerMap = getRegisterFormMap(
-		form,
-		handleChange,
-		handleError,
-		errors
-	);
+	const registerMap = getRegisterFormMap(form, handleChange, handleError);
 	const componentNavigation = registerNavMap;
 	console.log(errors);
 	const registerInputs = () =>

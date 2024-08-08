@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "../../../customHooks/useForm";
+import { useAuthForm } from "../../../customHooks/useAuthForm";
 import { useNavigate } from "react-router-dom";
 
 import { getLoginMap, loginNavMap } from "../../../maps/authMaps";
@@ -22,7 +22,7 @@ import "./Login.css";
 
 function Login() {
 	const pageTitle = "HouseHold";
-	const { form, handleChange } = useForm({
+	const { form, handleChange } = useAuthForm({
 		email: "",
 		password: "",
 	});

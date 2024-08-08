@@ -133,7 +133,7 @@ const validateConfirmPassword = (inputValue, passwordValue) => {
 	return validationResponse;
 };
 
-export const validationRules = {
+export const authValidationRules = {
 	email: validateEmail,
 	firstName: validateFirstName,
 	lastName: validateLastName,

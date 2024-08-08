@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { validationRules } from "../utils/validations/validation";
+import { authValidationRules } from "../utils/validations/authValidation";
 
-export const useForm = (initialFormState) => {
+export const useAuthForm = (initialFormState) => {
 	const [form, setForm] = useState(initialFormState);
 	const [errors, setErrors] = useState(initialFormState);
 	const [isFormValid, setIsFormValid] = useState(false);
@@ -20,12 +20,12 @@ export const useForm = (initialFormState) => {
 		console.log(fieldName, inputValue);
 		let validationResponse = null;
 		if (fieldName === "confirmPassword") {
-			validationResponse = validationRules[fieldName](
+			validationResponse = authValidationRules[fieldName](
 				inputValue,
 				form.password
 			);
 		} else {
-			validationResponse = validationRules[fieldName](inputValue);
+			validationResponse = authValidationRules[fieldName](inputValue);
 		}
 
 		setErrors({ ...errors, [fieldName]: validationResponse });
