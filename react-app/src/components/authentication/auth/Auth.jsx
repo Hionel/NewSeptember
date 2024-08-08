@@ -1,35 +1,39 @@
 // import { useState } from "react";
 import Container from "@mui/material/Container";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import "./Auth.css";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 function Auth() {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { currentUser } = useAuth();
 	const backgroundUrl = "url(/citiView.jpg)";
 
-	useEffect(() => {
-		if (currentUser) {
-			navigate("homepage");
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (currentUser) {
+	// 		navigate("homepage");
+	// 	}
+	// }, []);
 
 	return (
 		<>
-			<Container
-				maxWidth="none"
-				sx={{
-					height: "100%",
-					width: "100%",
-					background: backgroundUrl,
-					backgroundPosition: "center",
-					backgroundSize: "cover",
-				}}
-			>
-				<Outlet></Outlet>
-			</Container>
+			{currentUser ? (
+				<Navigate to="/homepage"></Navigate>
+			) : (
+				<Container
+					maxWidth="none"
+					sx={{
+						height: "100%",
+						width: "100%",
+						background: backgroundUrl,
+						backgroundPosition: "center",
+						backgroundSize: "cover",
+					}}
+				>
+					<Outlet></Outlet>
+				</Container>
+			)}
 		</>
 	);
 }
