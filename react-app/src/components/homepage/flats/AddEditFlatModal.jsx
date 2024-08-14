@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useModalForm } from "../../../customHooks/useModalForm";
+
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -10,9 +11,11 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { getFlatInputMap } from "../../../maps/homepageMaps";
 
-const style = {
+import { getFlatInputMap } from "../../../maps/homepageMaps";
+import { FIELD_NAMES } from "../../../utils/validations/flatModalValidation";
+
+const MODAL_STYLE = {
 	position: "absolute",
 	top: "50%",
 	left: "50%",
@@ -24,48 +27,46 @@ const style = {
 	p: 4,
 };
 
-const initialStateObject = {
-	flatName: "",
-	city: "",
-	streetName: "",
-	streetNumber: "",
-	yearBuilt: "",
-	rentPrice: "",
-	availableDate: "",
-	hasAC: false,
-};
-
 const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
-	const [flatData, setFlatData] = useState(initialStateObject);
-	const [editMode, setEditMode] = useState(false);
+	const {
+		flatData,
+		editMode,
+		errors,
+		handleChange,
+		handleError,
+		setErrors,
+		validateModalField,
+	} = useModalForm(formData);
 
-	useEffect(() => {
-		if (formData) {
-			setEditMode(true);
-			setFlatData((prevData) => ({
-				...prevData,
-				...formData,
+	const validateFormData = (formData) => {
+		for (let field in formData) {
+			if (field === FIELD_NAMES.HAS_AC) break;
+			const validationResponse = validateModalField(field, formData[field]);
+			setErrors((prevErrors) => ({
+				...prevErrors,
+				[field]: validationResponse,
 			}));
-		} else {
-			setEditMode(false);
-			setFlatData(initialStateObject);
 		}
-	}, [formData]);
-
-	const handleChange = (e) => {
-		const { name, value, type, checked } = e.target;
-		setFlatData((prevData) => ({
-			...prevData,
-			[name]: type === "checkbox" ? checked : value,
-		}));
 	};
 
-	const inputFields = getFlatInputMap(flatData, handleChange);
+	const handleErrorChecking = (errorsObject) => {
+		return Object.values(errorsObject).some(
+			(error) => error.success === false || error.success === null
+		);
+	};
 
 	const handleSave = () => {
+		const hasErrors = handleErrorChecking(errors);
+		if (hasErrors) {
+			validateFormData(flatData);
+			return;
+		}
+
 		onSave(flatData, flatData.id, editMode);
 		onClose();
 	};
+
+	const inputFields = getFlatInputMap(flatData);
 
 	return (
 		<Modal
@@ -82,9 +83,9 @@ const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
 			}}
 		>
 			<Fade in={open}>
-				<Box sx={style}>
+				<Box sx={MODAL_STYLE}>
 					<Typography id="transition-modal-title" variant="h6" component="h2">
-						{formData ? "Edit Flat" : "Add Flat"}
+						{editMode ? "Edit Flat" : "Add Flat"}
 					</Typography>
 					<Box
 						component="form"
@@ -108,13 +109,20 @@ const AddEditFlatModal = ({ open, onClose, formData, onSave }) => {
 							) : (
 								<TextField
 									key={field.name}
+									variant="standard"
 									label={field.label}
 									name={field.name}
+									type={field.type}
 									value={flatData[field.name]}
 									onChange={handleChange}
-									variant="standard"
+									onBlur={handleError}
+									helperText={errors[field.name]?.message}
+									error={errors[field.name]?.success === false}
 									fullWidth
-									type={field.type}
+									size="small"
+									sx={{
+										height: "4rem",
+									}}
 									InputLabelProps={
 										field.type === "date" ? { shrink: true } : undefined
 									}

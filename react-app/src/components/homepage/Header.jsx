@@ -37,6 +37,7 @@ const Header = (props) => {
 	const handleNavigation = (navItem) => {
 		if (navItem.id === NAV_MAP.LOGOUT) {
 			signUserOut();
+			return;
 		}
 		navigate(`${navItem.path}`);
 	};

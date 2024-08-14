@@ -31,8 +31,13 @@ const Flats = () => {
 	const [loading, setLoading] = useState(false);
 	const isAdmin = currentUser.role === FIREBASE_ROLES.ADMIN;
 
-	const handleOpenModal = () => setOpenModal(true);
-	const handleCloseModal = () => setOpenModal(false);
+	const handleOpenModal = () => {
+		setOpenModal(true);
+	};
+	const handleCloseModal = () => {
+		setEditData(null);
+		setOpenModal(false);
+	};
 
 	const handleTableData = useCallback(async (filter) => {
 		setLoading(true);
@@ -75,14 +80,10 @@ const Flats = () => {
 		[handleTableData, tableFilter, currentUser.uid]
 	);
 
-	const openEditModal = useCallback(async (flatData) => {
-		try {
-			setEditData(flatData);
-			handleOpenModal();
-		} catch (error) {
-			console.error("Error favoriting document: ", error);
-		}
-	}, []);
+	const openEditModal = (flatData) => {
+		setEditData(flatData);
+		handleOpenModal();
+	};
 
 	const handleAddEditSave = useCallback(
 		async (formData, docId = null, editMode = false) => {
@@ -146,7 +147,7 @@ const Flats = () => {
 						</Button>
 					))}
 				</List>
-				{!loading && (
+				{openModal && (
 					<AddEditFlatModal
 						open={openModal}
 						onClose={handleCloseModal}

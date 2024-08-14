@@ -49,14 +49,17 @@ export const getFlatsTableHeaders = (
 			headerName: "Available Date",
 			// width: 110,
 			type: "date",
-			valueGetter: (params) => {
-				return new Date(params);
+			valueGetter: (value) => {
+				return new Date(value);
 			},
 		},
 		{
 			field: "rentPrice",
 			headerName: "Rent Price",
 			type: "custom",
+			valueGetter: (value) => {
+				return `${value} €`;
+			},
 			headerAlign: "center",
 			align: "center",
 		},

@@ -1,21 +1,12 @@
-// import { useState } from "react";
 import Container from "@mui/material/Container";
 import { Outlet, Navigate } from "react-router-dom";
-import "./Auth.css";
 import { useAuth } from "../../../contexts/AuthContext";
-// import { useEffect } from "react";
+import "./Auth.css";
+
+const BG_URL = "url(/citiView.jpg)";
 
 function Auth() {
-	// const navigate = useNavigate();
 	const { currentUser } = useAuth();
-	const backgroundUrl = "url(/citiView.jpg)";
-
-	// useEffect(() => {
-	// 	if (currentUser) {
-	// 		navigate("homepage");
-	// 	}
-	// }, []);
-
 	return (
 		<>
 			{currentUser ? (
@@ -26,7 +17,7 @@ function Auth() {
 					sx={{
 						height: "100%",
 						width: "100%",
-						background: backgroundUrl,
+						background: BG_URL,
 						backgroundPosition: "center",
 						backgroundSize: "cover",
 					}}
