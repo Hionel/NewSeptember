@@ -65,7 +65,7 @@ const routes = [
 					},
 
 					{
-						path: "users/all",
+						path: "users",
 						element: <AllUsers />,
 					},
 					{

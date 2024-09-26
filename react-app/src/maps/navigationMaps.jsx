@@ -30,7 +30,7 @@ export const navItems = [
 	{
 		id: NAV_MAP.ALLUSERS,
 		label: "All Users",
-		path: "users/all",
+		path: "users",
 		Icon: () => <GroupIcon />,
 	},
 	{

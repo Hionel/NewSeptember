@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { useAuth } from "../../../contexts/AuthContext";
+// import { useAuth } from "../../../contexts/AuthContext";
 
 import { FIREBASE_ROLES } from "../../../maps/firebaseCollections";
 import {
@@ -22,9 +22,10 @@ import {
 	FILTER_TABEL_MAP,
 } from "../../../maps/navigationMaps";
 import { getFlatsTableHeaders } from "../../../maps/tableMaps";
+import { useOutletContext } from "react-router-dom";
 
 const Flats = () => {
-	const { currentUser } = useAuth();
+	const { currentUser } = useOutletContext();
 	const [openModal, setOpenModal] = useState(false);
 	const [editData, setEditData] = useState(null);
 	const [tableFilter, setTableFilter] = useState(FILTER_TABEL_MAP.ALLFLATS);
@@ -40,13 +41,10 @@ const Flats = () => {
 	};
 
 	const handleTableData = useCallback(async (filter) => {
-		setLoading(true);
 		try {
 			setTableFilter(filter);
 		} catch (error) {
 			console.error("Error updating table data: ", error);
-		} finally {
-			setLoading(false);
 		}
 	}, []);
 
@@ -168,10 +166,13 @@ const Flats = () => {
 				</Typography>
 				<DataTable
 					columns={flatsTableColumns}
-					filter={tableFilter}
-					uid={currentUser.uid}
 					loading={loading}
+					setLoading={setLoading}
 					getData={getApartments}
+					fetcherProps={{
+						uid: currentUser.uid,
+						filter: tableFilter,
+					}}
 				/>
 			</Container>
 		</Container>

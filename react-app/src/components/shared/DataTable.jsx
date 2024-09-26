@@ -2,16 +2,24 @@ import { useState, useEffect } from "react";
 import { GridToolbar } from "@mui/x-data-grid";
 import { DataGrid } from "@mui/x-data-grid";
 
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
+
 const DataTable = (props) => {
 	const [rows, setRows] = useState([]);
-	const { columns, filter, uid, loading, getData } = props;
+	const {
+		columns,
+		loading,
+		setLoading = null,
+		getData,
+		fetcherProps = null,
+	} = props;
 
 	useEffect(() => {
+		setLoading(true);
 		const fetchData = async () => {
 			if (!getData) return;
-
-			const unsubscribe = await getData(filter, uid, setRows);
-
+			const unsubscribe = await getData(handleSetter, { ...fetcherProps });
+			console.log(unsubscribe);
 			return () => {
 				if (unsubscribe) {
 					unsubscribe();
@@ -19,7 +27,12 @@ const DataTable = (props) => {
 			};
 		};
 		fetchData();
-	}, [filter, uid, getData]);
+		setLoading(false);
+	}, [fetcherProps, getData]);
+
+	const handleSetter = (fetcherData) => {
+		setRows(fetcherData);
+	};
 
 	return (
 		<DataGrid
@@ -30,7 +43,7 @@ const DataTable = (props) => {
 					paginationModel: { page: 0, pageSize: 50 },
 				},
 			}}
-			pageSizeOptions={[10, 25, 50, 100]}
+			pageSizeOptions={PAGE_SIZE_OPTIONS}
 			disableRowSelectionOnClick
 			autoHeight={true}
 			loading={loading}
@@ -49,6 +62,10 @@ const DataTable = (props) => {
 					outline: "none",
 				},
 				width: "max-content",
+				".MuiDataGrid-menuIcon": {
+					visibility: "visible !important",
+					width: "auto !important",
+				},
 			}}
 		/>
 	);

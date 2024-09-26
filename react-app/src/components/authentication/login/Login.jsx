@@ -20,8 +20,9 @@ import AuthNavigation from "../AuthNavigation";
 import { FirebaseError } from "firebase/app";
 import "./Login.css";
 
+const PAGE_TITLE = "HouseHold";
+
 function Login() {
-	const pageTitle = "HouseHold";
 	const { form, handleChange } = useAuthForm({
 		email: "",
 		password: "",
@@ -108,7 +109,7 @@ function Login() {
 						sx={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
 					>
 						<ApartmentIcon></ApartmentIcon>
-						{pageTitle}
+						{PAGE_TITLE}
 					</Typography>
 					<form onSubmit={handleSubmit} className="form_container">
 						{loginInputs()}

@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDocs, collection } from "firebase/firestore";
 import { firebaseFirestore } from "../firebase-service";
 import { FIREBASE_COLLECTIONS } from "../../../maps/firebaseCollections";
 // import { signIn } from "../auth/authentication-service";
@@ -27,5 +27,21 @@ export const createUserDocument = async (userData, userUID) => {
 		// await signIn(userData);
 	} catch (e) {
 		console.error("Error adding document: ", e);
+	}
+};
+
+export const getAllUsers = async (setUsers) => {
+	try {
+		const users = [];
+		const querySnapshot = await getDocs(
+			collection(firebaseFirestore, USERS_COLLECTION_REF)
+		);
+		querySnapshot.forEach((doc) => {
+			users.push({ id: doc.id, ...doc.data() });
+		});
+		console.log(users);
+		setUsers(users);
+	} catch (e) {
+		console.error("Error getting documents: ", e);
 	}
 };

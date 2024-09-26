@@ -104,3 +104,40 @@ export const getFlatsTableHeaders = (
 	];
 	return columns;
 };
+
+export const getAllUsersTableHeaders = (handleDelete, handleEdit) => {
+	const columns = [
+		{
+			field: "email",
+			headerName: "Email",
+			headerAlign: "center",
+			align: "center",
+		},
+		{
+			field: "role",
+			headerName: "Role",
+			type: "boolean",
+			headerAlign: "center",
+			align: "center",
+		},
+		{
+			field: "actions",
+			headerName: "Actions",
+			sortable: false,
+			width: "180",
+			headerAlign: "center",
+			align: "center",
+			renderCell: (params) => (
+				<>
+					<IconButton color="error" onClick={() => handleDelete(params.row.id)}>
+						<DeleteIcon />
+					</IconButton>
+					<IconButton color="primary" onClick={() => handleEdit(params.row)}>
+						<EditIcon />
+					</IconButton>
+				</>
+			),
+		},
+	];
+	return columns;
+};

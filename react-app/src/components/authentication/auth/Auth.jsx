@@ -1,12 +1,12 @@
 import Container from "@mui/material/Container";
-import { Outlet, Navigate } from "react-router-dom";
-import { useAuth } from "../../../contexts/AuthContext";
+import { Outlet, Navigate, useOutletContext } from "react-router-dom";
+// import { useAuth } from "../../../contexts/AuthContext";
 import "./Auth.css";
 
 const BG_URL = "url(/citiView.jpg)";
 
 function Auth() {
-	const { currentUser } = useAuth();
+	const { currentUser } = useOutletContext();
 	return (
 		<>
 			{currentUser ? (

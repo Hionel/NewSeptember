@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import { Outlet } from "react-router-dom";
+// import { useAuth } from "../../contexts/AuthContext";
+import { Outlet, useOutletContext } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
 import Header from "./Header";
@@ -11,7 +11,7 @@ import { FIREBASE_COLLECTIONS } from "../../maps/firebaseCollections";
 import { Container } from "@mui/material";
 
 const Homepage = () => {
-	const { currentUser, setCurrentUser } = useAuth();
+	const { currentUser, setCurrentUser } = useOutletContext();
 
 	useEffect(() => {
 		if (!currentUser) return;
@@ -49,7 +49,7 @@ const Homepage = () => {
 					</Container>
 
 					<Container disableGutters maxWidth="none" sx={{ flexGrow: "1" }}>
-						<Outlet />
+						<Outlet context={{ currentUser }} />
 					</Container>
 				</Container>
 			)}

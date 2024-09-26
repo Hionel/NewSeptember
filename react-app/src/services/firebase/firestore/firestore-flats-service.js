@@ -130,36 +130,7 @@ export const toggleFavoriteFlat = async (flatId, userId) => {
 	}
 };
 
-// export const getAllFlats = async (flatsCollection) => {
-// 	try {
-// 		const querySnapshot = await getDocs(
-// 			collection(firebaseFirestore, FLATS_COLLECTION_NAME)
-// 		);
-// 		const docsArray = querySnapshot.docs.map((doc) => {
-// 			return { ...doc.data(), id: doc.id };
-// 		});
-
-// 		return docsArray;
-// 	} catch (error) {
-// 		console.error("Error getting documents: ", error);
-// 		showToaster("error", "Error getting flats documents");
-// 	}
-// };
-
-const fetchDocuments = async (queries, setApartments) => {
-	try {
-		const results = await Promise.all(queries.map((q) => getDocs(q)));
-		const docsArray = results.flatMap((result) =>
-			result.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-		);
-		setApartments(docsArray);
-	} catch (error) {
-		console.error("Error fetching documents: ", error);
-		showToaster("error", "Error fetching documents");
-	}
-};
-
-export const getApartments = async (filter, uid, setApartments) => {
+export const getApartments = async (setApartments, { filter, uid }) => {
 	console.log(filter, uid);
 
 	const flatsCollection = collection(firebaseFirestore, FLATS_COLLECTION_NAME);
@@ -235,5 +206,18 @@ export const getApartments = async (filter, uid, setApartments) => {
 	} catch (error) {
 		console.error("Error processing query: ", error);
 		showToaster("error", "Error processing query");
+	}
+};
+
+const fetchDocuments = async (queries, setApartments) => {
+	try {
+		const results = await Promise.all(queries.map((q) => getDocs(q)));
+		const docsArray = results.flatMap((result) =>
+			result.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+		);
+		setApartments(docsArray);
+	} catch (error) {
+		console.error("Error fetching documents: ", error);
+		showToaster("error", "Error fetching documents");
 	}
 };
