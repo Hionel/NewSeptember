@@ -1,0 +1,81 @@
+// Connect to the cities collection
+
+db.cities.insertMany([
+	{
+		name: "New York",
+		country: "USA",
+		population: 8419600,
+		area: 783.8,
+		coordinates: { lat: 40.7128, lon: -74.006 },
+	},
+	{
+		name: "Los Angeles",
+		country: "USA",
+		population: 3980400,
+		area: 1214,
+		coordinates: { lat: 34.0522, lon: -118.2437 },
+	},
+	{
+		name: "Chicago",
+		country: "USA",
+		population: 2716000,
+		area: 589,
+		coordinates: { lat: 41.8781, lon: -87.6298 },
+	},
+	{
+		name: "Toronto",
+		country: "Canada",
+		population: 2731600,
+		area: 630.2,
+		coordinates: { lat: 43.6532, lon: -79.3832 },
+	},
+	{
+		name: "London",
+		country: "UK",
+		population: 8982000,
+		area: 1572,
+		coordinates: { lat: 51.5074, lon: -0.1278 },
+	},
+	{
+		name: "Paris",
+		country: "France",
+		population: 2148000,
+		area: 105.4,
+		coordinates: { lat: 48.8566, lon: 2.3522 },
+	},
+	{
+		name: "Berlin",
+		country: "Germany",
+		population: 3669000,
+		area: 891.8,
+		coordinates: { lat: 52.52, lon: 13.405 },
+	},
+	{
+		name: "Madrid",
+		country: "Spain",
+		population: 3266000,
+		area: 604.3,
+		coordinates: { lat: 40.4168, lon: -3.7038 },
+	},
+	{
+		name: "Tokyo",
+		country: "Japan",
+		population: 37400068,
+		area: 2194,
+		coordinates: { lat: 35.6762, lon: 139.6503 },
+	},
+	{
+		name: "Sydney",
+		country: "Australia",
+		population: 5312163,
+		area: 12368,
+		coordinates: { lat: -33.8688, lon: 151.2093 },
+	},
+	{
+		name: "Melbourne",
+		country: "Australia",
+		population: 5078193,
+		area: 9992,
+		coordinates: { lat: -33.8688, lon: 151.2093 },
+	},
+]);
